@@ -5,6 +5,7 @@ import Poster from "./Poster";
 
 export default function Lightbox({ items, start, onClose }) {
   const [i, setI] = useState(start);
+  const [viewportHeight, setViewportHeight] = useState("100dvh");
   const touchX = useRef(null);
 
   const item = items[i];
@@ -12,15 +13,26 @@ export default function Lightbox({ items, start, onClose }) {
   const next = () => setI((n) => (n < items.length - 1 ? n + 1 : n));
 
   useEffect(() => {
+    const syncViewportHeight = () => {
+      setViewportHeight(
+        `${window.visualViewport?.height || window.innerHeight}px`
+      );
+    };
     const onKey = (e) => {
       if (e.key === "Escape") onClose();
       if (e.key === "ArrowLeft") prev();
       if (e.key === "ArrowRight") next();
     };
+
+    syncViewportHeight();
     window.addEventListener("keydown", onKey);
+    window.addEventListener("resize", syncViewportHeight);
+    window.visualViewport?.addEventListener("resize", syncViewportHeight);
     document.body.style.overflow = "hidden";
     return () => {
       window.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", syncViewportHeight);
+      window.visualViewport?.removeEventListener("resize", syncViewportHeight);
       document.body.style.overflow = "";
     };
   }, []);
@@ -36,12 +48,13 @@ export default function Lightbox({ items, start, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex h-dvh flex-col bg-black/95 backdrop-blur-sm"
+      className="fixed inset-x-0 top-0 z-[60] flex flex-col bg-black"
+      style={{ height: viewportHeight }}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
       {/* top bar */}
-      <div className="flex shrink-0 items-center justify-between px-4 py-3">
+      <div className="flex shrink-0 items-center justify-between px-4 py-3 pt-[calc(0.75rem+env(safe-area-inset-top))]">
         <span className="text-xs text-smoke">
           {i + 1} / {items.length}
         </span>
@@ -57,7 +70,7 @@ export default function Lightbox({ items, start, onClose }) {
       </div>
 
       {/* media */}
-      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-3 sm:px-14">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-3 py-2 sm:px-14">
         {item.type === "video" ? (
           <video
             key={item.src}
@@ -66,14 +79,15 @@ export default function Lightbox({ items, start, onClose }) {
             controls
             autoPlay
             playsInline
-            className="h-full w-full rounded-lg object-contain"
+            className="block h-auto max-h-full w-auto max-w-full rounded-lg object-contain"
           />
         ) : (
           <Poster
             src={item.src}
             alt={item.caption || ""}
             label="add a photo"
-            className="h-full w-full rounded-lg object-contain"
+            loading="eager"
+            className="block h-auto max-h-full w-auto max-w-full rounded-lg object-contain"
           />
         )}
 
@@ -99,7 +113,7 @@ export default function Lightbox({ items, start, onClose }) {
       </div>
 
       {/* caption */}
-      <div className="min-h-[4.5rem] shrink-0 px-6 py-4 text-center">
+      <div className="min-h-[4.5rem] shrink-0 px-6 pb-[calc(1rem+env(safe-area-inset-bottom))] pt-3 text-center">
         {item.caption ? (
           <p className="font-script text-xl text-cream">{item.caption}</p>
         ) : (

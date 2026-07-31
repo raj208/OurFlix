@@ -2,7 +2,7 @@
 
 import Poster from "./Poster";
 
-export default function Card({ item, big, onOpen }) {
+export default function Card({ item, big }) {
   const isVideo = item.type === "video";
   const thumb = isVideo ? item.poster : item.src;
 
@@ -11,17 +11,13 @@ export default function Card({ item, big, onOpen }) {
     : "h-40 w-28 sm:h-52 sm:w-36";
 
   return (
-    <button
-      type="button"
-      onClick={onOpen}
-      className={`group relative shrink-0 overflow-hidden rounded-md bg-white/5 ${size} focus:outline-none focus:ring-2 focus:ring-rose`}
-    >
+    <div className={`relative shrink-0 overflow-hidden rounded-md bg-white/5 ${size}`}>
       <Poster
         src={thumb}
         alt={item.caption || ""}
         label="add media"
         sizes={big ? "(min-width: 640px) 18rem, 16rem" : "(min-width: 640px) 9rem, 7rem"}
-        className="h-full w-full object-cover sm:transition sm:duration-300 sm:group-hover:scale-105"
+        className="h-full w-full object-cover"
       />
 
       {/* darken from bottom so captions/badges read */}
@@ -40,6 +36,6 @@ export default function Card({ item, big, onOpen }) {
           {item.caption}
         </span>
       ) : null}
-    </button>
+    </div>
   );
 }

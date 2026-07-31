@@ -4,16 +4,12 @@ import { useState } from "react";
 import { site } from "@/content";
 import Poster from "./Poster";
 import Row from "./Row";
-import Lightbox from "./Lightbox";
 
 export default function Browse() {
-  const [box, setBox] = useState(null); // { items, start } | null
   const [liked, setLiked] = useState(false);
 
-  const open = (row, index) => setBox({ items: row.items, start: index });
   const playFirst = () => {
-    const firstRow = site.rows.find((r) => r.items?.length);
-    if (firstRow) setBox({ items: firstRow.items, start: 0 });
+    document.getElementById("memories")?.scrollIntoView();
   };
 
   return (
@@ -81,9 +77,9 @@ export default function Browse() {
       </section>
 
       {/* ── Rows ── */}
-      <main className="-mt-4">
+      <main id="memories" className="-mt-4">
         {site.rows.map((row, i) => (
-          <Row key={i} row={row} onOpen={open} />
+          <Row key={i} row={row} />
         ))}
       </main>
 
@@ -94,10 +90,6 @@ export default function Browse() {
           {site.title.toUpperCase()} · A LIMITED SERIES · NOT AFFILIATED WITH NETFLIX
         </p>
       </footer>
-
-      {box && (
-        <Lightbox items={box.items} start={box.start} onClose={() => setBox(null)} />
-      )}
     </div>
   );
 }

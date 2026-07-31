@@ -5,13 +5,7 @@ import { useState } from "react";
 // Renders an <img>. If the file isn't there yet (or fails to load),
 // it degrades to a soft gradient block instead of a broken-image icon —
 // so the site looks intentional even before you've dropped media in.
-export default function Poster({
-  src,
-  alt = "",
-  className = "",
-  label,
-  loading = "lazy",
-}) {
+export default function Poster({ src, alt = "", className = "", label }) {
   const [failed, setFailed] = useState(false);
 
   if (!src || failed) {
@@ -30,7 +24,7 @@ export default function Poster({
     <img
       src={src}
       alt={alt}
-      loading={loading}
+      loading="lazy"
       draggable={false}
       onError={() => setFailed(true)}
       className={className}

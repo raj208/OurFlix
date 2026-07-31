@@ -34,6 +34,12 @@ body {
   scroll-snap-align: start;
 }
 
+/* Keep offscreen rows cheap on mobile while scrolling through many photos. */
+.content-row {
+  content-visibility: auto;
+  contain-intrinsic-size: 260px;
+}
+
 /* ── TUDUM intro animation ── */
 @keyframes tudum-bars {
   0% {

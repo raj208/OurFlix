@@ -44,6 +44,8 @@ export default function Lightbox({ items, start, onClose }) {
             src={item.src}
             alt={item.caption || ""}
             loading="eager"
+            decoding="async"
+            fetchPriority="high"
             draggable={false}
             className="block max-h-screen max-h-[100svh] max-w-[100vw] object-contain"
           />
@@ -51,9 +53,21 @@ export default function Lightbox({ items, start, onClose }) {
       </div>
 
       <div className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-between bg-gradient-to-b from-black/70 to-transparent px-4 pb-8 pt-[calc(0.75rem+env(safe-area-inset-top))]">
-        <span className="text-xs text-smoke">
-          {i + 1} / {items.length}
-        </span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onClose}
+            aria-label="Back"
+            className="pointer-events-auto flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-2 text-sm font-semibold text-cream active:scale-95"
+          >
+            <svg viewBox="0 0 24 24" className="h-4 w-4 fill-current">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.42-1.41L7.83 13H20v-2z" />
+            </svg>
+            Back
+          </button>
+          <span className="text-xs text-smoke">
+            {i + 1} / {items.length}
+          </span>
+        </div>
         <button
           onClick={onClose}
           aria-label="Close"

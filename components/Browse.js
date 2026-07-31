@@ -32,6 +32,8 @@ export default function Browse() {
           src={site.hero.src}
           alt={site.hero.title}
           label="add your standout photo"
+          priority
+          sizes="100vw"
           className="h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-ink/40" />

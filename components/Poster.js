@@ -1,11 +1,19 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 // Renders an <img>. If the file isn't there yet (or fails to load),
 // it degrades to a soft gradient block instead of a broken-image icon —
 // so the site looks intentional even before you've dropped media in.
-export default function Poster({ src, alt = "", className = "", label }) {
+export default function Poster({
+  src,
+  alt = "",
+  className = "",
+  label,
+  priority = false,
+  sizes = "160px",
+}) {
   const [failed, setFailed] = useState(false);
 
   if (!src || failed) {
@@ -21,10 +29,13 @@ export default function Poster({ src, alt = "", className = "", label }) {
   }
 
   return (
-    <img
+    <Image
       src={src}
       alt={alt}
-      loading="lazy"
+      fill
+      sizes={sizes}
+      priority={priority}
+      quality={priority ? 85 : 60}
       draggable={false}
       onError={() => setFailed(true)}
       className={className}

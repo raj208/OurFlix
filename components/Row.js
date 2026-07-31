@@ -4,7 +4,7 @@ import Card from "./Card";
 
 export default function Row({ row, onOpen }) {
   return (
-    <section className="mt-6">
+    <section className="content-row mt-6">
       <h3 className="mb-2 px-4 font-body text-base font-semibold text-cream sm:text-lg">
         {row.title}
       </h3>

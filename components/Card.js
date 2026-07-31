@@ -12,6 +12,7 @@ export default function Card({ item, big, onOpen }) {
 
   return (
     <button
+      type="button"
       onClick={onOpen}
       className={`group relative shrink-0 overflow-hidden rounded-md bg-white/5 ${size} focus:outline-none focus:ring-2 focus:ring-rose`}
     >
@@ -19,7 +20,8 @@ export default function Card({ item, big, onOpen }) {
         src={thumb}
         alt={item.caption || ""}
         label="add media"
-        className="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+        sizes={big ? "(min-width: 640px) 18rem, 16rem" : "(min-width: 640px) 9rem, 7rem"}
+        className="h-full w-full object-cover sm:transition sm:duration-300 sm:group-hover:scale-105"
       />
 
       {/* darken from bottom so captions/badges read */}

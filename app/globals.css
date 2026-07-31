@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Anton", sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
+  --font-script: "Caveat", cursive;
+}
+
+html,
+body {
+  background: #0b0b0f;
+  color: #f5f3ee;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: none;
+}
+
+/* Hide horizontal scrollbars on the Netflix rows but keep scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Smooth momentum scroll on iOS */
+.snap-x-row {
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-x-row > * {
+  scroll-snap-align: start;
+}
+
+/* ── TUDUM intro animation ── */
+@keyframes tudum-bars {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  35% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1.02);
+    opacity: 0;
+  }
+}
+@keyframes tudum-flash {
+  0%,
+  55% {
+    opacity: 0;
+  }
+  62% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes tudum-title {
+  0%,
+  60% {
+    opacity: 0;
+    transform: scale(1.25);
+    letter-spacing: 0.4em;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    letter-spacing: 0.02em;
+  }
+}
+
+.tudum-bar {
+  transform-origin: bottom;
+  animation: tudum-bars 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.tudum-flash {
+  animation: tudum-flash 2s ease-out forwards;
+}
+.tudum-title {
+  animation: tudum-title 1.4s 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tudum-bar,
+  .tudum-flash,
+  .tudum-title,
+  .animate-floatUp {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

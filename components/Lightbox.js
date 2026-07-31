@@ -36,12 +36,12 @@ export default function Lightbox({ items, start, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex flex-col bg-black/95 backdrop-blur-sm"
+      className="fixed inset-0 z-[60] flex h-dvh flex-col bg-black/95 backdrop-blur-sm"
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
       {/* top bar */}
-      <div className="flex items-center justify-between px-4 py-3">
+      <div className="flex shrink-0 items-center justify-between px-4 py-3">
         <span className="text-xs text-smoke">
           {i + 1} / {items.length}
         </span>
@@ -57,7 +57,7 @@ export default function Lightbox({ items, start, onClose }) {
       </div>
 
       {/* media */}
-      <div className="relative flex flex-1 items-center justify-center overflow-hidden px-3">
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden px-3 sm:px-14">
         {item.type === "video" ? (
           <video
             key={item.src}
@@ -66,14 +66,14 @@ export default function Lightbox({ items, start, onClose }) {
             controls
             autoPlay
             playsInline
-            className="max-h-full max-w-full rounded-lg"
+            className="h-full w-full rounded-lg object-contain"
           />
         ) : (
           <Poster
             src={item.src}
             alt={item.caption || ""}
             label="add a photo"
-            className="max-h-full max-w-full rounded-lg object-contain"
+            className="h-full w-full rounded-lg object-contain"
           />
         )}
 
@@ -99,7 +99,7 @@ export default function Lightbox({ items, start, onClose }) {
       </div>
 
       {/* caption */}
-      <div className="min-h-[4.5rem] px-6 py-4 text-center">
+      <div className="min-h-[4.5rem] shrink-0 px-6 py-4 text-center">
         {item.caption ? (
           <p className="font-script text-xl text-cream">{item.caption}</p>
         ) : (
